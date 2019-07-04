@@ -17,7 +17,11 @@ object OrderProcessor {
                     orderLines: Seq[Lines]
                   )
 
-  case class StockResult(avaibility: Boolean)
+  case class StockResult(
+                          orderId: String,
+                          orderLineId: String,
+                          avaibility: Boolean
+                        )
 
 }
 
@@ -31,15 +35,16 @@ class OrderProcessor() extends Actor with ActorLogging {
   }
 
   override def receive: Receive = {
-    case Order(name, address, totalValue, quantity, orderLines) =>
-      stockValidatorActor ! Stock(orderLines.head.productId, orderLines.head.quantity)
+    case Order(orderId, name, address, totalValue, quantity, orderLines) =>
+      orderLines.foreach(orderLine => stockValidatorActor ! Stock(orderId, orderLine.orderLineId, orderLine.productId, orderLine.quantity))
 
-    case StockResult (resutl) =>
+
+    case StockResult(orderId,orderLineId,resutl) =>
       if (resutl) {
-        log.info("we have stock for this order")
+        log.info(s"we have stock for the order $orderId line $orderLineId")
       }
       else {
-        log.info("we don't stock for this order")
+        log.info(s"we don't stock for this order $orderId line $orderLineId")
       }
   }
 }
