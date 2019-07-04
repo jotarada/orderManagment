@@ -17,6 +17,10 @@ object StockValidator {
 
 class StockValidator extends Actor with ActorLogging {
 
+  override def preStart(): Unit = {
+    log.info("starting stockValidator")
+  }
+
   override def receive: Receive = {
 
     case Stock(productId, quantity) =>

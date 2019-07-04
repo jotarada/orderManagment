@@ -12,7 +12,7 @@ object Run extends App {
 
   val orderLine = Lines(
     productId = "123",
-    quantity = 2,
+    quantity = 1,
     price = 10)
 
   val order = Order(
@@ -23,8 +23,8 @@ object Run extends App {
     orderLines = Seq(orderLine)
   )
 
-  val order1: ActorRef = system.actorOf(Props[OrderProcessor])
+  val orderProcessorActor: ActorRef = system.actorOf(Props[OrderProcessor])
 
-  order1 ! order
+  orderProcessorActor ! order
 
 }

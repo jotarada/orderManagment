@@ -21,7 +21,10 @@ object OrderProcessor {
 
 }
 
-class OrderProcessor extends Actor with ActorLogging {
+class OrderProcessor() extends Actor with ActorLogging {
+
+
+  val stockValidatorActor: ActorRef = context.actorOf(Props[StockValidator])
 
   override def preStart(): Unit = {
     log.info("starting order processing")
@@ -29,8 +32,7 @@ class OrderProcessor extends Actor with ActorLogging {
 
   override def receive: Receive = {
     case Order(name, address, totalValue, quantity, orderLines) =>
-      val stockStatus: ActorRef = context.actorOf(Props[StockValidator])
-      stockStatus ! Stock(orderLines.head.productId, orderLines.head.quantity)
+      stockValidatorActor ! Stock(orderLines.head.productId, orderLines.head.quantity)
 
     case StockResult (resutl) =>
       if (resutl) {
