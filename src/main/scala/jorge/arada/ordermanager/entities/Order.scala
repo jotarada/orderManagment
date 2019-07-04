@@ -1,4 +1,4 @@
-package jorge.arada.orderManager.entities
+package jorge.arada.ordermanager.entities
 
 case class Order(
                 orderId:String,
