@@ -1,4 +1,4 @@
-package jorge.arada.ordermanager
+package jorge.arada.ordermanager.repository
 
 import akka.actor.{Actor, ActorLogging, Props}
 import jorge.arada.ordermanager.messages.{OrderNotOk, OrderOk}
