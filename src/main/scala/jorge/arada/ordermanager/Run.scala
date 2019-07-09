@@ -12,7 +12,7 @@ object Run
   val orderLine = Lines(
     productId = "123",
     orderLineId = "2",
-    quantity = 2,
+    quantity = 1,
     price = 10)
 
   val order = Order(

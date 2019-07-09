@@ -14,6 +14,7 @@ class OrderProcessor(eventRepository: ActorRef, eventDispatcher: ActorRef)
 
   val orderValidatorActor: ActorRef = context.actorOf(Props[OrderValidator], "orderValidatorActor")
   val orderFulFillActor: ActorRef = context.actorOf(Props[OrderFulfill], "orderFulFillActor")
+  val orderShippingActor: ActorRef = context.actorOf(Props[OrderShipping], "orderShippingActor")
 
   override def preStart(): Unit = {
 
@@ -33,6 +34,7 @@ class OrderProcessor(eventRepository: ActorRef, eventDispatcher: ActorRef)
           orderValidatedSuccess.order.orderLines.head.orderLineId
         }")
       eventRepository ! orderValidatedSuccess
+      //TODO: stock hold should be done one validator. FulFill should be from outside
       orderFulFillActor ! orderValidatedSuccess
 
     case orderValidatedNotSuccess: OrderValidatedNotSuccess =>
@@ -46,5 +48,12 @@ class OrderProcessor(eventRepository: ActorRef, eventDispatcher: ActorRef)
       log.info(
         s"Fulfill sucess ${orderFulFilled.order.orderId}")
       eventRepository ! orderFulFilled
+      //TODO: Ship should be from outside
+      orderShippingActor! orderFulFilled
+
+    case orderShiped: OrderShipped =>
+      log.info(
+        s"Shipped with sucess ${orderShiped.order.orderId}")
+      eventRepository ! orderShiped
   }
 }
