@@ -49,7 +49,7 @@ class OrderProcessor(eventRepository: ActorRef, eventDispatcher: ActorRef)
         s"Fulfill sucess ${orderFulFilled.order.orderId}")
       eventRepository ! orderFulFilled
       //TODO: Ship should be from outside
-      orderShippingActor! orderFulFilled
+      orderShippingActor ! orderFulFilled
 
     case orderShiped: OrderShipped =>
       log.info(
@@ -57,3 +57,4 @@ class OrderProcessor(eventRepository: ActorRef, eventDispatcher: ActorRef)
       eventRepository ! orderShiped
   }
 }
+

@@ -4,7 +4,7 @@ import akka.actor.{Actor, ActorLogging, Props}
 import jorge.arada.ordermanager.messages.{OrderNotOk, OrderOk}
 
 object EventDispatcher {
-  def props: Props = Props[EventDispatcher]
+  def props: Props = Props[FileReader]
 }
 
 class EventDispatcher extends Actor with ActorLogging{
