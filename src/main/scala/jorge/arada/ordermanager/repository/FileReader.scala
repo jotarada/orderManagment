@@ -10,14 +10,15 @@ object FileReader {
   def props(fileName: String): Props = Props[FileReader](new FileReader(fileName))
 }
 
-class FileReader(fileName: String) extends Actor with ActorLogging {
+class FileReader(fileName: String)
+  extends Actor with ActorLogging {
 
   override def receive: Receive = {
 
     case OpenFile =>
 
       val data = fromFile(fileName)
-      val arrayLines = data.getLines().toSeq
+      val arrayLines: Seq[String] = data.getLines().toArray.toSeq
       data.close()
 
       sender ! arrayLines

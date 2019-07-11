@@ -8,4 +8,4 @@ case class Order(
   totalValue: Double,
   quantity: Int,
   orderLines: Seq[Lines]
-)
+) extends Entities
